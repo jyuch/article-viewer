@@ -1,10 +1,20 @@
 <html>
-  <head>
-    <title>{{ title }}</title>
-  </head>
-  <body>
+
+<head>
+  <title>{{ title }}</title>
+  <style>
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
   {{ for page of pages }}
-    <img src="./{{ page }}.webp">
+  <img src="./{{ page }}.webp">
   {{ /for }}
-  </body>
+</body>
+
 </html>
