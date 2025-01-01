@@ -9,8 +9,6 @@ interface Article {
   pages: string[];
 }
 
-const pagePattern = /page.+/g;
-
 const files = walk("./article", { maxDepth: 1, includeFiles: false });
 
 const articles: Article[] = [];
@@ -24,11 +22,11 @@ for await (const file of files) {
     const p: string[] = [];
 
     for await (const page of pages) {
-      if (pagePattern.test(basename(page.path))) {
+      if (extname(page.path) === ".webp") {
         p.push(basename(page.path, extname(page.path)));
       }
     }
-    articles.push({ title: file.name, pages: p });
+    articles.push({ title: file.name, pages: p.sort() });
   }
 }
 
