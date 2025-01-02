@@ -22,8 +22,8 @@ for await (const file of files) {
     const p: string[] = [];
 
     for await (const page of pages) {
-      if (extname(page.path) === ".webp") {
-        p.push(basename(page.path, extname(page.path)));
+      if (extname(page.path) === ".avif") {
+        p.push(basename(page.path));
       }
     }
     articles.push({ title: file.name, pages: p.sort() });
