@@ -4,3 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+anyhow = { version = "1", features = ["backtrace", "std"] }
+clap = { version = "4", features = ["derive"] }
+askama = "0.12"

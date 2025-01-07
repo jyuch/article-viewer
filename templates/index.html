@@ -1,0 +1,24 @@
+<html lang="jp">
+
+<head>
+    <title>Index</title>
+    <style>
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<ul>
+    {% for category in categories %}
+    <li>
+        <a href="./{{ category }}/">{{ category }}</a>
+    </li>
+    {% endfor %}
+</ul>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<html lang="jp">
+
+<head>
+    <title>{{ name }}</title>
+    <style>
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<ul>
+    {% for article in articles %}
+    <li>
+        <a href="./{{ article }}/">{{ article }}</a>
+    </li>
+    {% endfor %}
+</ul>
+</body>
+
+</html>

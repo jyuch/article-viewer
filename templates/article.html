@@ -1,0 +1,20 @@
+<html>
+
+<head>
+    <title>{{ name }}</title>
+    <style>
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    {% for page in pages %}
+    <img loading="lazy" src="./{{ page }}">
+    {% endfor %}
+</body>
+
+</html>
