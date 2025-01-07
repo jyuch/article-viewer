@@ -1,0 +1,24 @@
+<html>
+
+<head>
+  <title>{{ title }}</title>
+  <style>
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    {{ for article of articles }}
+    <li>
+      <a href="./{{ article }}/">{{ article }}</a>
+    </li>
+    {{ /for }}
+  </ul>
+</body>
+
+</html>

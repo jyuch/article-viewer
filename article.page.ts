@@ -1,41 +1,41 @@
-import { walk } from "@std/fs";
 import { basename } from "@std/path/basename";
-import { extname } from "@std/path/extname";
+import { expandGlob } from "@std/fs/expand-glob";
 
 export const layout = "layouts/article.vto";
 
 interface Article {
+  category: string;
   title: string;
   pages: string[];
 }
 
-const files = walk("./article", { maxDepth: 1, includeFiles: false });
+const categories = expandGlob("*", { root: "./article" });
 
-const articles: Article[] = [];
+const a: Article[] = [];
 
-for await (const file of files) {
-  if (file.name !== "article") {
-    const pages = walk(`./article/${file.name}`, {
-      maxDepth: 1,
-      includeDirs: false,
-    });
+for await (const category of categories) {
+  if (category.isDirectory) {
+    const articles = expandGlob("*", { root: `./article/${category.name}` });
+
     const p: string[] = [];
-
-    for await (const page of pages) {
-      if (extname(page.path) === ".avif") {
-        p.push(basename(page.path));
+    for await (const article of articles) {
+      const pages = expandGlob("*.avif", {
+        root: `./article/${category.name}/${article.name}`,
+      });
+      for await (const page of pages) {
+        p.push(basename(page.name));
       }
+      a.push({ category: category.name, title: article.name, pages: p.sort() });
     }
-    articles.push({ title: file.name, pages: p.sort() });
   }
 }
 
 export default function* () {
-  for (const article of articles) {
+  for (const article of a) {
     yield {
       title: article.title,
       pages: article.pages,
-      url: `/article/${article.title}/index.html`,
+      url: `/article/${article.category}/${article.title}/index.html`,
     };
   }
 }
