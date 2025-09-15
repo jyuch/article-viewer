@@ -38,7 +38,10 @@ fn main() -> anyhow::Result<()> {
         let mut articles = vec![];
 
         for article in scan_dir(opt.input.join(&category))? {
-            let pages = scan_file(opt.input.join(&category).join(&article), "avif")?;
+            let pages = scan_file(
+                opt.input.join(&category).join(&article),
+                &["avif", "jpg", "png"],
+            )?;
             let a = Article {
                 name: article.to_string(),
                 pages,
@@ -80,13 +83,13 @@ fn scan_dir<P: AsRef<Path>>(path: P) -> anyhow::Result<Vec<String>> {
     Ok(results)
 }
 
-fn scan_file<P: AsRef<Path>>(path: P, ext: &str) -> anyhow::Result<Vec<String>> {
+fn scan_file<P: AsRef<Path>>(path: P, exts: &[&str]) -> anyhow::Result<Vec<String>> {
     let mut results = vec![];
 
     for entry in (std::fs::read_dir(path)?).flatten() {
         if entry.file_type()?.is_file() {
             if let Some(file_ext) = entry.path().extension() {
-                if file_ext == ext {
+                if exts.iter().any(|e| file_ext == *e) {
                     if let Some(entry) = entry.file_name().to_str() {
                         results.push(entry.to_string());
                     }
